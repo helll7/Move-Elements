@@ -78,6 +78,7 @@
     </div>
 
     <script>
+        var currentElement = '';
         //Make the DIV element draggagle:
         dragElement(document.getElementById("mydiv"));
         dragElement(document.getElementById("mydiv2"));
@@ -97,6 +98,7 @@
             }
 
             function dragMouseDown(e) {
+                currentElement = e.toElement.id
                 console.log(e.toElement.id);
                 e = e || window.event;
                 e.preventDefault();
@@ -116,12 +118,60 @@
                 pos2 = pos4 - e.clientY;
                 pos3 = e.clientX;
                 pos4 = e.clientY;
+
+                // console.log("pos1 " + pos1);
+                // console.log("pos2 " + pos2);
+                console.log("pos3 = X = " + pos3);
+                console.log("pos4 = Y = " + pos4);
+
+                // if (pos4 > 250) {
+                var pos2X = document.getElementById("mydiv2").style.left
+                var pos2Y = document.getElementById("mydiv2").style.top
+
+                var pos2X = pos2X == '' ? 0 : parseInt(pos2X.substring(0, pos2X.length - 2))
+                var pos2Y = pos2Y == '' ? 0 : parseInt(pos2Y.substring(0, pos2Y.length - 2))
+
+                console.log('posX');
+                console.log(pos2X);
+                console.log('posY');
+                console.log(pos2Y);
+
+
+
+                setInterval(() => {
+                    while (pos2X != pos3 + 10) {
+                        pos2X++
+                    }
+                }, 100);
+
+
+                document.getElementById("mydiv2").style.top = pos2X + 'px';
+                document.getElementById("mydiv2").style.left = pos2Y + 'px';
+
+                // var posX = pos3 + 10;
+                // var posY = pos4 + 10;
+
+
+
+
+
+                // if (currentElement == 'mydivheader') {
+                //     // bring all the other below as well
+                //     document.getElementById("mydiv2").style.top = pos4 + 'px';
+                //     document.getElementById("mydiv2").style.left = pos3 + 'px';
+
+                //     document.getElementById("mydiv3").style.top = posY + 'px';
+                //     document.getElementById("mydiv3").style.left = posX + 'px';
+                // }
+                // }
+
+                // console.log(elmnt)
                 // set the element's new position:
                 elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
                 elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
             }
 
-            function closeDragElement() {                
+            function closeDragElement() {
                 /* stop moving when mouse button is released:*/
                 document.onmouseup = null;
                 document.onmousemove = null;
