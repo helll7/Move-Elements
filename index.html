@@ -29,7 +29,7 @@
             background-color: #f1f1f1;
             text-align: center;
             border: 1px solid #d3d3d3;
-            left: 70px;
+            left: 60px;
         }
 
         #mydivheader2 {
@@ -46,10 +46,27 @@
             background-color: #f1f1f1;
             text-align: center;
             border: 1px solid #d3d3d3;
-            left: 130px;
+            left: 120px;
         }
 
         #mydivheader3 {
+            padding: 10px;
+            cursor: move;
+            z-index: 10;
+            background-color: #2196F3;
+            color: #fff;
+        }
+
+        #mydiv4 {
+            position: absolute;
+            z-index: 9;
+            background-color: #f1f1f1;
+            text-align: center;
+            border: 1px solid #d3d3d3;
+            left: 180px;
+        }
+
+        #mydivheader4 {
             padding: 10px;
             cursor: move;
             z-index: 10;
@@ -62,27 +79,70 @@
 <body>
     <!-- <p>Drag Banner</p> -->
     <div id="mydiv">
-        <div id="mydivheader">100</div>
+        <div id="mydivheader">50</div>
     </div>
 
     <div id="mydiv2">
-        <div id="mydivheader2">500</div>
+        <div id="mydivheader2">100</div>
     </div>
 
     <div id="mydiv3">
-        <div id="mydivheader3">2000</div>
+        <div id="mydivheader3">500</div>
+    </div>
+
+    <div id="mydiv4">
+        <div id="mydivheader4">2000</div>
     </div>
 
     <div style="position:absolute;top:200px">
         <p>drop here</p>
     </div>
 
+    <div style="position:absolute;top:200px;left:400px">
+        <div id="totalCount">Total:</div>
+    </div>
+
+    <script>
+        document.getElementById("mydivheader").onmouseup = function (event) {
+            mouseUp()
+        };
+        document.getElementById("mydivheader2").onmouseup = function (event) {
+            mouseUp()
+        };
+        document.getElementById("mydivheader3").onmouseup = function (event) {
+            mouseUp()
+        };
+        document.getElementById("mydivheader4").onmouseup = function (event) {
+            mouseUp()
+        };
+
+        function mouseUp(event) {
+            // document.getElementById("mydivheader").innerHTML = "You released the mouse button.";
+            event = event || window.event;
+
+            if (event.clientX) {
+                pos3 = event.clientX;
+                pos4 = event.clientY;
+            } else {
+                pos3 = event.changedTouches[0].clientX;
+                pos4 = event.changedTouches[0].clientY;
+            }
+
+            console.log("x: " + pos3);
+            console.log("y: " + pos4);
+            if ((pos4 > 250)) {
+                console.log("reached");
+                document.getElementById("totalCount").innerHTML ='<h1>Total: 2650</h1>'
+            }
+        }
+    </script>
     <script>
         var currentElement = '';
         //Make the DIV element draggagle:
         dragElement(document.getElementById("mydiv"));
         dragElement(document.getElementById("mydiv2"));
         dragElement(document.getElementById("mydiv3"));
+        dragElement(document.getElementById("mydiv4"));
 
 
         function dragElement(elmnt) {
@@ -119,54 +179,111 @@
                 pos3 = e.clientX;
                 pos4 = e.clientY;
 
-                // console.log("pos1 " + pos1);
-                // console.log("pos2 " + pos2);
-                console.log("pos3 = X = " + pos3);
-                console.log("pos4 = Y = " + pos4);
-
-                // if (pos4 > 250) {
-                var pos2X = document.getElementById("mydiv2").style.left
-                var pos2Y = document.getElementById("mydiv2").style.top
-
-                var pos2X = pos2X == '' ? 0 : parseInt(pos2X.substring(0, pos2X.length - 2))
-                var pos2Y = pos2Y == '' ? 0 : parseInt(pos2Y.substring(0, pos2Y.length - 2))
-
-                console.log('posX');
-                console.log(pos2X);
-                console.log('posY');
-                console.log(pos2Y);
-
-
-
-                setInterval(() => {
-                    while (pos2X != pos3 + 10) {
-                        pos2X++
-                    }
-                }, 100);
-
-
-                document.getElementById("mydiv2").style.top = pos2X + 'px';
-                document.getElementById("mydiv2").style.left = pos2Y + 'px';
-
-                // var posX = pos3 + 10;
-                // var posY = pos4 + 10;
 
 
 
 
 
-                // if (currentElement == 'mydivheader') {
-                //     // bring all the other below as well
-                //     document.getElementById("mydiv2").style.top = pos4 + 'px';
-                //     document.getElementById("mydiv2").style.left = pos3 + 'px';
 
-                //     document.getElementById("mydiv3").style.top = posY + 'px';
-                //     document.getElementById("mydiv3").style.left = posX + 'px';
-                // }
-                // }
+                if (currentElement == 'mydivheader') {
+                    // bring all the other below as well
+                    var pos2X = pos3 + 10;
+                    var pos2Y = pos4 - 20;
 
-                // console.log(elmnt)
-                // set the element's new position:
+                    var pos3X = pos3 + 20;
+                    var pos3Y = pos4 - 30;
+
+                    var pos4X = pos3 + 30;
+                    var pos4Y = pos4 - 40;
+
+                    setTimeout(() => {
+                        document.getElementById("mydiv2").style.top = pos2Y + 'px';
+                        document.getElementById("mydiv2").style.left = pos2X + 'px';
+
+                        document.getElementById("mydiv3").style.top = pos3Y + 'px';
+                        document.getElementById("mydiv3").style.left = pos3X + 'px';
+
+                        document.getElementById("mydiv4").style.top = pos4Y + 'px';
+                        document.getElementById("mydiv4").style.left = pos4X + 'px';
+
+                    }, 100);
+
+                }
+
+                if (currentElement == 'mydivheader2') {
+                    // bring all the other below as well
+                    var pos2X = pos3 + 10;
+                    var pos2Y = pos4 - 20;
+
+                    var pos3X = pos3 + 20;
+                    var pos3Y = pos4 - 30;
+
+                    var pos4X = pos3 + 30;
+                    var pos4Y = pos4 - 40;
+
+                    setTimeout(() => {
+                        document.getElementById("mydiv").style.top = pos2Y + 'px';
+                        document.getElementById("mydiv").style.left = pos2X + 'px';
+
+                        document.getElementById("mydiv3").style.top = pos3Y + 'px';
+                        document.getElementById("mydiv3").style.left = pos3X + 'px';
+
+                        document.getElementById("mydiv4").style.top = pos4Y + 'px';
+                        document.getElementById("mydiv4").style.left = pos4X + 'px';
+
+                    }, 100);
+
+                }
+
+                if (currentElement == 'mydivheader3') {
+                    // bring all the other below as well
+                    var pos2X = pos3 + 10;
+                    var pos2Y = pos4 - 20;
+
+                    var pos3X = pos3 + 20;
+                    var pos3Y = pos4 - 30;
+
+                    var pos4X = pos3 + 30;
+                    var pos4Y = pos4 - 40;
+
+                    setTimeout(() => {
+                        document.getElementById("mydiv").style.top = pos2Y + 'px';
+                        document.getElementById("mydiv").style.left = pos2X + 'px';
+
+                        document.getElementById("mydiv2").style.top = pos3Y + 'px';
+                        document.getElementById("mydiv2").style.left = pos3X + 'px';
+
+                        document.getElementById("mydiv4").style.top = pos4Y + 'px';
+                        document.getElementById("mydiv4").style.left = pos4X + 'px';
+
+                    }, 100);
+
+                }
+
+                if (currentElement == 'mydivheader4') {
+                    // bring all the other below as well
+                    var pos2X = pos3 + 10;
+                    var pos2Y = pos4 - 20;
+
+                    var pos3X = pos3 + 20;
+                    var pos3Y = pos4 - 30;
+
+                    var pos4X = pos3 + 30;
+                    var pos4Y = pos4 - 40;
+
+                    setTimeout(() => {
+                        document.getElementById("mydiv").style.top = pos2Y + 'px';
+                        document.getElementById("mydiv").style.left = pos2X + 'px';
+
+                        document.getElementById("mydiv2").style.top = pos3Y + 'px';
+                        document.getElementById("mydiv2").style.left = pos3X + 'px';
+
+                        document.getElementById("mydiv3").style.top = pos4Y + 'px';
+                        document.getElementById("mydiv3").style.left = pos4X + 'px';
+
+                    }, 100);
+
+                }
                 elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
                 elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
             }
