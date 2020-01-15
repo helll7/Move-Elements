@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Mobile</title>
+    <style>
+        #mydiv {
+            position: absolute;
+            z-index: 9;
+            text-align: center;
+        }
+
+        #mydivheader {
+            padding: 10px;
+            cursor: move;
+            z-index: 10;
+        }
+
+        #mydiv2 {
+            position: absolute;
+            z-index: 9;
+            text-align: center;
+            background-color: #f1f1f1;
+            text-align: center;
+            left: 60px;
+        }
+
+        #mydivheader2 {
+            padding: 10px;
+            cursor: move;
+            z-index: 10;
+            background-color: #2196F3;
+        }
+
+        #mydiv3 {
+            position: absolute;
+            z-index: 9;
+            text-align: center;
+            background-color: #f1f1f1;
+            text-align: center;
+            left: 120px;
+        }
+
+        #mydivheader3 {
+            padding: 10px;
+            cursor: move;
+            z-index: 10;
+            background-color: #2196F3;
+        }
+
+        #mydiv4 {
+            position: absolute;
+            z-index: 9;
+            text-align: center;
+            background-color: #f1f1f1;
+            text-align: center;
+            left: 180px;
+        }
+
+        #mydivheader4 {
+            padding: 10px;
+            cursor: move;
+            z-index: 10;
+            background-color: #2196F3;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="mydiv">
+        <div id="mydivheader">50</div>
+    </div>
+    <div id="mydiv2">
+        <div id="mydivheader2">100</div>
+    </div>
+    <div id="mydiv3">
+        <div id="mydivheader3">500</div>
+    </div>
+    <div id="mydiv4">
+        <div id="mydivheader4">2000</div>
+    </div>
+    <div style="position:absolute;top:200px;left:400px">
+        <div id="totalCount">Total:</div>
+    </div>
+    <script>
+        document.getElementById("mydivheader").onmouseup = function (event) {
+            mouseUp()
+        };
+        document.getElementById("mydivheader2").onmouseup = function (event) {
+            mouseUp()
+        };
+        document.getElementById("mydivheader3").onmouseup = function (event) {
+            mouseUp()
+        };
+        document.getElementById("mydivheader4").onmouseup = function (event) {
+            mouseUp()
+        };
+
+        document.getElementById("mydivheader").ontouchend = function (event) {
+            mouseUp()
+        };
+        document.getElementById("mydivheader2").ontouchend = function (event) {
+            mouseUp()
+        };
+        document.getElementById("mydivheader3").ontouchend = function (event) {
+            mouseUp()
+        };
+        document.getElementById("mydivheader4").ontouchend = function (event) {
+            mouseUp()
+        };
+
+        function mouseUp(event) {
+            // document.getElementById("mydivheader").innerHTML = "You released the mouse button.";
+            event = event || window.event;
+
+            if (event.clientX) {
+                pos3 = event.clientX;
+                pos4 = event.clientY;
+            } else {
+                pos3 = event.changedTouches[0].clientX;
+                pos4 = event.changedTouches[0].clientY;
+            }
+
+            console.log("x: " + pos3);
+            console.log("y: " + pos4);
+            if ((pos4 > 250)) {
+                console.log("reached");
+                document.getElementById("totalCount").innerHTML ='<h1>Total: 2650</h1>'
+            }
+        }
+
+        function callingApi() {
+            var finalBody = null;
+            var xhttp = new XMLHttpRequest();
+            xhttp.open("GET", "https://demos.auburnsolutions.com/TDP/drag-response/drag.php");
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhttp.setRequestHeader("accesstoken", "YWRzZmFzZGY=");
+            xhttp.send(finalBody);
+        }
+    </script>
+
+    <script>
+        //Make the DIV element draggagle:
+        dragElement(document.getElementById("mydiv"));
+        dragElement(document.getElementById("mydiv2"));
+        dragElement(document.getElementById("mydiv3"));
+        dragElement(document.getElementById("mydiv4"));
+
+        function dragElement(elmnt) {
+            var pos1 = 0,
+                pos2 = 0,
+                pos3 = 0,
+                pos4 = 0;
+            if (document.getElementById(elmnt.id + "header")) {
+
+                /* if present, the header is where you move the DIV from:*/
+                document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
+                document.getElementById(elmnt.id + "header").ontouchstart = dragMouseDown;
+
+                document.getElementById(elmnt.id + "header2").onmousedown = dragMouseDown;
+                document.getElementById(elmnt.id + "header2").ontouchstart = dragMouseDown;
+                document.getElementById(elmnt.id + "header3").onmousedown = dragMouseDown;
+                document.getElementById(elmnt.id + "header3").ontouchstart = dragMouseDown;
+                document.getElementById(elmnt.id + "header4").onmousedown = dragMouseDown;
+                document.getElementById(elmnt.id + "header4").ontouchstart = dragMouseDown;
+            } else {
+                /* otherwise, move the DIV from anywhere inside the DIV:*/
+                elmnt.onmousedown = dragMouseDown;
+                elmnt.ontouchstart = dragMouseDown;
+            }
+
+            function dragMouseDown(e) {
+                e = e || window.event;
+                e.preventDefault();
+                // get the mouse cursor position at startup:
+                if (e.clientX) {
+                    pos3 = e.clientX;
+                    pos4 = e.clientY;
+                } else {
+                    pos3 = e.touches[0].clientX;
+                    pos4 = e.touches[0].clientY;
+                }
+                document.onmouseup = closeDragElement;
+                document.ontouchend = closeDragElement;
+                // call a function whenever the cursor moves:
+                document.onmousemove = elementDrag;
+                document.ontouchmove = elementDrag;
+            }
+
+            function elementDrag(e) {
+                e = e || window.event;
+                console.log(e);
+                // e.preventDefault();
+
+                currentElement = e.target.id
+                // calculate the new cursor position:
+                if (e.clientX) {
+                    pos1 = pos3 - e.clientX;
+                    pos2 = pos4 - e.clientY;
+                    pos3 = e.clientX;
+                    pos4 = e.clientY;
+                } else {
+                    pos1 = pos3 - e.touches[0].clientX;
+                    pos2 = pos4 - e.touches[0].clientY;
+                    pos3 = e.touches[0].clientX;
+                    pos4 = e.touches[0].clientY;
+                }
+                console.log("log x" + pos3);
+                console.log("log y" + pos4);
+                // set the element's new position:
+                elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+                elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+
+
+                if (currentElement == 'mydivheader') {
+                    // bring all the other below as well
+                    var pos2X = pos3 + 10;
+                    var pos2Y = pos4 - 20;
+
+                    var pos3X = pos3 + 20;
+                    var pos3Y = pos4 - 30;
+
+                    var pos4X = pos3 + 30;
+                    var pos4Y = pos4 - 40;
+
+                    setTimeout(() => {
+                        document.getElementById("mydiv2").style.top = pos2Y + 'px';
+                        document.getElementById("mydiv2").style.left = pos2X + 'px';
+
+                        document.getElementById("mydiv3").style.top = pos3Y + 'px';
+                        document.getElementById("mydiv3").style.left = pos3X + 'px';
+
+                        document.getElementById("mydiv4").style.top = pos4Y + 'px';
+                        document.getElementById("mydiv4").style.left = pos4X + 'px';
+
+                    }, 100);
+
+                }
+
+                if (currentElement == 'mydivheader2') {
+                    // bring all the other below as well
+                    var pos2X = pos3 + 10;
+                    var pos2Y = pos4 - 20;
+
+                    var pos3X = pos3 + 20;
+                    var pos3Y = pos4 - 30;
+
+                    var pos4X = pos3 + 30;
+                    var pos4Y = pos4 - 40;
+
+                    setTimeout(() => {
+                        document.getElementById("mydiv").style.top = pos2Y + 'px';
+                        document.getElementById("mydiv").style.left = pos2X + 'px';
+
+                        document.getElementById("mydiv3").style.top = pos3Y + 'px';
+                        document.getElementById("mydiv3").style.left = pos3X + 'px';
+
+                        document.getElementById("mydiv4").style.top = pos4Y + 'px';
+                        document.getElementById("mydiv4").style.left = pos4X + 'px';
+
+                    }, 100);
+
+                }
+
+                if (currentElement == 'mydivheader3') {
+                    // bring all the other below as well
+                    var pos2X = pos3 + 10;
+                    var pos2Y = pos4 - 20;
+
+                    var pos3X = pos3 + 20;
+                    var pos3Y = pos4 - 30;
+
+                    var pos4X = pos3 + 30;
+                    var pos4Y = pos4 - 40;
+
+                    setTimeout(() => {
+                        document.getElementById("mydiv").style.top = pos2Y + 'px';
+                        document.getElementById("mydiv").style.left = pos2X + 'px';
+
+                        document.getElementById("mydiv2").style.top = pos3Y + 'px';
+                        document.getElementById("mydiv2").style.left = pos3X + 'px';
+
+                        document.getElementById("mydiv4").style.top = pos4Y + 'px';
+                        document.getElementById("mydiv4").style.left = pos4X + 'px';
+
+                    }, 100);
+
+                }
+
+                if (currentElement == 'mydivheader4') {
+                    // bring all the other below as well
+                    var pos2X = pos3 + 10;
+                    var pos2Y = pos4 - 20;
+
+                    var pos3X = pos3 + 20;
+                    var pos3Y = pos4 - 30;
+
+                    var pos4X = pos3 + 30;
+                    var pos4Y = pos4 - 40;
+
+                    setTimeout(() => {
+                        document.getElementById("mydiv").style.top = pos2Y + 'px';
+                        document.getElementById("mydiv").style.left = pos2X + 'px';
+
+                        document.getElementById("mydiv2").style.top = pos3Y + 'px';
+                        document.getElementById("mydiv2").style.left = pos3X + 'px';
+
+                        document.getElementById("mydiv3").style.top = pos4Y + 'px';
+                        document.getElementById("mydiv3").style.left = pos4X + 'px';
+
+                    }, 100);
+
+                }
+
+                if (pos3 > 200) {
+
+                }
+
+            }
+
+            function closeDragElement() {
+                /* stop moving when mouse button is released:*/
+                document.onmouseup = null;
+                document.onmousemove = null;
+            }
+        }
+    </script>
+</body>
+
+</html>
